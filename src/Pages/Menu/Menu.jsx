@@ -10,6 +10,7 @@ const img = "https://i.ibb.co.com/JK2B4Zb/banner3.jpg"
 const Menu = () => {
 
   const [menu, loading] = useMenu();
+  
 
   const desserts = menu.filter((item) => item.category === "dessert");
   const pizza = menu.filter((item) => item.category === "pizza");
