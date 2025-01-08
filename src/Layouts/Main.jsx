@@ -3,16 +3,16 @@ import Navbar from "../Pages/Common/Navbar";
 import Footer from "../Pages/Common/Footer";
 
 const Main = () => {
-
   const location = useLocation();
-  const isLogin = location.pathname.includes('log-in') || location.pathname.includes('sign-up')
-  
+  const isLogin =
+    location.pathname.includes("log-in") ||
+    location.pathname.includes("sign-up");
+
   return (
     <div>
-      {isLogin ||  <Navbar />}
+      {isLogin || <Navbar />}
       <Outlet />
-      {isLogin ||  <Footer />}
-      
+      {isLogin || <Footer />}
     </div>
   );
 };

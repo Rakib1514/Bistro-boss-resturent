@@ -6,11 +6,13 @@ import {
 } from "react-simple-captcha";
 import AuthContext from "../../Providers/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
+import { FaBackward } from "react-icons/fa";
+import { Helmet } from "react-helmet-async";
+import { IoCheckmarkDoneCircle } from "react-icons/io5";
 
 const Login = () => {
   const [disable, setDisable] = useState(true);
   const [btnLoading, setBtnLoading] = useState(false);
-  const captchaRef = useRef(null);
 
   const { signInUser, setLoading } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -41,8 +43,8 @@ const Login = () => {
     }
   };
 
-  const handleValidateCaptcha = () => {
-    const value = captchaRef.current.value;
+  const handleValidateCaptcha = (e) => {
+    const value = e.target.value;
     if (validateCaptcha(value)) {
       setDisable(false);
     } else {
@@ -50,9 +52,27 @@ const Login = () => {
     }
   };
 
+  const handleBack = () => {
+    if (window.history.length > 2) {
+      navigate(-1);
+    } else {
+      navigate("/");
+    }
+  };
+
   return (
     <div className="hero bg-base-200 min-h-screen">
-      <div className="hero-content    flex-col md:flex-row">
+      <Helmet title="Bistro Boss | Sign in" />
+      <div className="hero-content    flex-col md:flex-row relative">
+        <div className="absolute top-0 left-24">
+          <button onClick={handleBack} className="btn btn-outline">
+            {" "}
+            <span>
+              <FaBackward />
+            </span>{" "}
+            Go back{" "}
+          </button>
+        </div>
         <div className="text-center md:w-1/2 lg:text-left">
           <h1 className="text-5xl font-bold">Login now!</h1>
           <p className="py-6">
@@ -97,19 +117,18 @@ const Login = () => {
               <label className="label">
                 <LoadCanvasTemplate />
               </label>
-              <input
-                ref={captchaRef}
-                name="captcha"
-                type="text"
-                placeholder="Type the captcha above"
-                className="input input-bordered"
-                required
-              />
-              <div
-                onClick={handleValidateCaptcha}
-                className="btn btn-outline btn-xs mt-1"
-              >
-                Verify
+              <div className="relative">
+                <input
+                  onBlur={handleValidateCaptcha}
+                  name="captcha"
+                  type="text"
+                  placeholder="Type the captcha above"
+                  className="input input-bordered"
+                  required
+                />
+                {disable || (
+                  <IoCheckmarkDoneCircle className="absolute top-2 right-16 text-3xl text-green-600" />
+                )}
               </div>
             </div>
 
