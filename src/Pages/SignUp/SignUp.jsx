@@ -5,7 +5,7 @@ import AuthContext from "../../Providers/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
-  const { signUpUser } = useContext(AuthContext);
+  const { signUpUser, updateUserProfile } = useContext(AuthContext);
   const [btnLoading, setBtnLoading] = useState(false);
   const navigate = useNavigate();
   const {
@@ -17,13 +17,21 @@ const SignUp = () => {
 
   const onSubmit = async (data) => {
     setBtnLoading(true);
-
+    
     try {
       const result = await signUpUser(data.email, data.password);
-      if (result.user) {
-        reset();
-        navigate("/");
-        alert("account created");
+      if (result?.user) {
+        try {
+          await updateUserProfile(data.name, data.photoURL);
+          reset();
+          navigate("/");
+          alert("account created");
+        } catch (error) {
+          console.error("profile update failed", error.message);
+          alert("Account created, but profile update failed: " + error.message);
+        }
+      } else{
+        throw new Error("User creation failed, no user returned")
       }
     } catch (error) {
       alert("account creation failed" + error.message);
@@ -60,6 +68,26 @@ const SignUp = () => {
               {errors.name && (
                 <span className="text-red-500 text-sm mt-1">
                   {errors.name.message}
+                </span>
+              )}
+            </div>
+
+            {/* Photo url */}
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Photo URL</span>
+              </label>
+              <input
+                type="text"
+                {...register("photoURL", {
+                  required: " Profile Photo URL is required",
+                })}
+                placeholder="Photo URL"
+                className="input input-bordered"
+              />
+              {errors.photoURL && (
+                <span className="text-red-500 text-sm mt-1">
+                  {errors.photoURL.message}
                 </span>
               )}
             </div>
@@ -136,7 +164,7 @@ const SignUp = () => {
             </div>
           </form>
           <label className="label">
-            <Link to={'/log-in'} className="label-text-alt link link-hover">
+            <Link to={"/log-in"} className="label-text-alt link link-hover">
               Already have an account? Log in here.
             </Link>
           </label>

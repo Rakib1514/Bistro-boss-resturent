@@ -1,11 +1,11 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   loadCaptchaEnginge,
   LoadCanvasTemplate,
   validateCaptcha,
 } from "react-simple-captcha";
 import AuthContext from "../../Providers/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaBackward } from "react-icons/fa";
 import { Helmet } from "react-helmet-async";
 import { IoCheckmarkDoneCircle } from "react-icons/io5";
@@ -13,9 +13,12 @@ import { IoCheckmarkDoneCircle } from "react-icons/io5";
 const Login = () => {
   const [disable, setDisable] = useState(true);
   const [btnLoading, setBtnLoading] = useState(false);
+  const location = useLocation();
 
   const { signInUser, setLoading } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const from = location.state?.from?.pathname || "/";
 
   useEffect(() => {
     loadCaptchaEnginge(3);
@@ -33,7 +36,7 @@ const Login = () => {
       const result = await signInUser(email, password);
       if (result.user) {
         alert("sign in successfully");
-        navigate("/");
+        navigate(from, { replace: true });
       }
     } catch (error) {
       alert("sign in Failed" + error.message);

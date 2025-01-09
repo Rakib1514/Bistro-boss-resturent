@@ -28,6 +28,9 @@ const Navbar = () => {
       <li>
         <NavLink to={"/order/salad"}>Order Food</NavLink>
       </li>
+      <li>
+        <NavLink to={"/secret"}>secret</NavLink>
+      </li>
 
       {
         //if user is true
