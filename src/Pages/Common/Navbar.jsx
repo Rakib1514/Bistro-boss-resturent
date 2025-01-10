@@ -1,11 +1,15 @@
+/* eslint-disable no-unused-vars */
 import { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import AuthContext from "../../Providers/AuthContext";
 import { FaShoppingCart } from "react-icons/fa";
+import useCart from "../../Hooks/useCart";
 
 const Navbar = () => {
   const { user, signOutUser } = useContext(AuthContext);
   const [btnLoading, setBtnLoading] = useState(false);
+
+  const { cart } = useCart();
 
   const handleSignOut = async () => {
     setBtnLoading(true);
@@ -33,12 +37,14 @@ const Navbar = () => {
         <NavLink to={"/secret"}>secret</NavLink>
       </li>
       <li>
-        <button  className="border border-white bg-transparent">
+        <NavLink to="/dashboard/cart" className="border border-white bg-transparent">
           <button className="flex gap-2 items-center">
-            <span className="text-xl"><FaShoppingCart /></span>
-            <div className="badge badge-secondary">+99</div>
+            <span className="text-xl">
+              <FaShoppingCart />
+            </span>
+            <div className="badge badge-secondary">{cart.length}</div>
           </button>
-        </button>
+        </NavLink>
       </li>
 
       {

@@ -3,11 +3,13 @@ import useAuth from "../Hooks/useAuth";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { useState } from "react";
+import useCart from "../Hooks/useCart";
 
 const FoodCard = ({ item }) => {
   const [btnLoading, setBtnLoading] = useState(false);
 
   const { name, recipe, price, image, _id } = item;
+  const { refetch } = useCart();
 
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -15,7 +17,7 @@ const FoodCard = ({ item }) => {
 
   const axiosSecure = useAxiosSecure();
 
-  const handleAddToCart = async (food) => {
+  const handleAddToCart = async () => {
     setBtnLoading(true);
     if (user && user.email) {
       const cartItem = {
@@ -30,6 +32,8 @@ const FoodCard = ({ item }) => {
         const res = await axiosSecure.post("/carts", cartItem);
         if (res.data.insertedId) {
           alert(`${name} Added to the cart`);
+          // refetch for dynamic update ui
+          refetch();
         }
       } catch (error) {
         alert(`Error adding to cart: ${error.message}`);
@@ -55,7 +59,7 @@ const FoodCard = ({ item }) => {
         <p>{recipe}</p>
         <div className="card-actions justify-end">
           <button
-            onClick={() => handleAddToCart(item)}
+            onClick={handleAddToCart}
             className={`btn border-0 border-b-2 border-orange-700 text-black mt-4 ${
               btnLoading ? "btn-disabled" : "btn-outline"
             }`}
