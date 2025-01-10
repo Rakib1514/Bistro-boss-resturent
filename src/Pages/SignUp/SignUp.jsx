@@ -3,8 +3,10 @@ import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import AuthContext from "../../Providers/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 const SignUp = () => {
+  const axiosPublic = useAxiosPublic();
   const { signUpUser, updateUserProfile } = useContext(AuthContext);
   const [btnLoading, setBtnLoading] = useState(false);
   const navigate = useNavigate();
@@ -17,22 +19,31 @@ const SignUp = () => {
 
   const onSubmit = async (data) => {
     setBtnLoading(true);
-    
     try {
       const result = await signUpUser(data.email, data.password);
-      if (result?.user) {
-        try {
-          await updateUserProfile(data.name, data.photoURL);
-          reset();
-          navigate("/");
-          alert("account created");
-        } catch (error) {
-          console.error("profile update failed", error.message);
-          alert("Account created, but profile update failed: " + error.message);
-        }
-      } else{
-        throw new Error("User creation failed, no user returned")
+      if (!result?.user) {
+        throw new Error("User Creation failed, no user returned");
       }
+
+      // Update user name and photo to Firebase
+      await updateUserProfile(data.name, data.photoURL);
+
+      // create user info
+      const userInfo = {
+        name: data.name,
+        email: data.email,
+      };
+
+      const res = await axiosPublic.post("/users", userInfo);
+
+      if (!res.data.insertedId) {
+        throw new Error("Failed to post data to database");
+      }
+
+      // Success Flow
+      reset();
+      alert("Account created successfully");
+      navigate("/");
     } catch (error) {
       alert("account creation failed" + error.message);
     } finally {
