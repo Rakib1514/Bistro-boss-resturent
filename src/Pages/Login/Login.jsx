@@ -1,17 +1,11 @@
-import { useContext, useEffect, useState } from "react";
-import {
-  loadCaptchaEnginge,
-  LoadCanvasTemplate,
-  validateCaptcha,
-} from "react-simple-captcha";
+import { useContext, useState } from "react";
+
 import AuthContext from "../../Providers/AuthContext";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaBackward } from "react-icons/fa";
 import { Helmet } from "react-helmet-async";
-import { IoCheckmarkDoneCircle } from "react-icons/io5";
 
 const Login = () => {
-  const [disable, setDisable] = useState(true);
   const [btnLoading, setBtnLoading] = useState(false);
   const location = useLocation();
 
@@ -19,10 +13,6 @@ const Login = () => {
   const navigate = useNavigate();
 
   const from = location.state?.from?.pathname || "/";
-
-  useEffect(() => {
-    loadCaptchaEnginge(3);
-  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -43,15 +33,6 @@ const Login = () => {
       setLoading(false);
     } finally {
       setBtnLoading(false);
-    }
-  };
-
-  const handleValidateCaptcha = (e) => {
-    const value = e.target.value;
-    if (validateCaptcha(value)) {
-      setDisable(false);
-    } else {
-      setDisable(true);
     }
   };
 
@@ -116,35 +97,12 @@ const Login = () => {
               </label>
             </div>
 
-            <div className="form-control">
-              <label className="label">
-                <LoadCanvasTemplate />
-              </label>
-              <div className="relative">
-                <input
-                  onBlur={handleValidateCaptcha}
-                  name="captcha"
-                  type="text"
-                  placeholder="Type the captcha above"
-                  className="input input-bordered"
-                  required
-                />
-                {disable || (
-                  <IoCheckmarkDoneCircle className="absolute top-2 right-16 text-3xl text-green-600" />
-                )}
-              </div>
-            </div>
-
             <div className="form-control mt-6">
               <input
-                disabled={disable}
-                className={`btn  ${
-                  btnLoading ? "btn-disabled" : "btn-outline"
-                }`}
+                className={`btn btn-outline`}
                 type="submit"
                 value={btnLoading ? "logging in..." : "Log in"}
               />
-              {/* {btnLoading &&   <span className="loading loading-spinner"></span>} */}
             </div>
           </form>
           <p>
