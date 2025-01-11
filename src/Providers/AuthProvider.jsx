@@ -11,12 +11,13 @@ import {
   updateProfile,
 } from "firebase/auth";
 import auth from "../Firebase/firebase.config";
+import useAxiosPublic from "../Hooks/useAxiosPublic";
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
   const googleProvider = new GoogleAuthProvider();
+  const axiosPublic = useAxiosPublic()
 
   const googleSignIn = () => {
     setLoading(true);
@@ -48,11 +49,24 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      if(currentUser){
+        // Get token and store
+        const userInfo = {email: currentUser.email, }
+        axiosPublic.post('/jwt', {userInfo})
+          .then(res => {
+            if(res.data.token){
+              localStorage.setItem('access-token', res.data.token)
+            }
+          })
+      } else {
+        // Todo: Remove Token from client side
+        localStorage.removeItem('access-token')
+      }
       setLoading(false);
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [axiosPublic]);
 
   const authData = {
     user,
