@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import AuthContext from "../../Providers/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import SocialLogin from "../../components/SocialLogin";
 
 const SignUp = () => {
   const axiosPublic = useAxiosPublic();
@@ -174,11 +175,13 @@ const SignUp = () => {
               )}
             </div>
           </form>
-          <label className="label">
+          <label className="label px-6">
             <Link to={"/log-in"} className="label-text-alt link link-hover">
               Already have an account? Log in here.
             </Link>
           </label>
+          <div className="divider">OR</div>
+          <SocialLogin/>
         </div>
       </div>
     </div>

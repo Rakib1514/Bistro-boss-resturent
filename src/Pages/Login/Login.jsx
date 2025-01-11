@@ -4,6 +4,7 @@ import AuthContext from "../../Providers/AuthContext";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaBackward } from "react-icons/fa";
 import { Helmet } from "react-helmet-async";
+import SocialLogin from "../../components/SocialLogin";
 
 const Login = () => {
   const [btnLoading, setBtnLoading] = useState(false);
@@ -105,15 +106,18 @@ const Login = () => {
               />
             </div>
           </form>
-          <p>
+          <p className="px-6">
             <small>
-              New Here?{" "}
+              New Here?
               <Link to="/sign-up" className="link text-blue-700 ">
-                {" "}
                 Create an account!
               </Link>
             </small>
           </p>
+
+          <div className="divider">OR</div>
+          
+          <SocialLogin/>
         </div>
       </div>
     </div>

@@ -1,43 +1,83 @@
 import {
+  FaBook,
   FaCalendar,
   FaCalendarCheck,
   FaComment,
+  FaEnvelope,
   FaHome,
+  FaList,
   FaShoppingCart,
+  FaUsers,
+  FaUtensils,
 } from "react-icons/fa";
 import { MdOutlineMenuBook } from "react-icons/md";
 import { Link, NavLink, Outlet } from "react-router-dom";
 
 const Dashboard = () => {
+  // Todo: Get isAdmin value from the database
+  const isAdmin = true;
+
   return (
     <div className="flex gap-6">
       <div className="w-64 min-h-svh bg-primaryD pt-6">
         <ul className="menu uppercase ">
-          <li>
-            <NavLink to="/dashboard/user-home">
-              <FaHome /> <span>User Home</span>
+          {isAdmin ? (
+            <>
+              <li>
+            <NavLink to="/dashboard/admin-home">
+              <FaHome /> <span>Admin Home</span>
             </NavLink>
           </li>
           <li>
-            <NavLink to="/dashboard/reservation">
-              <FaCalendar /> <span>Reservation</span>
+            <NavLink to="/dashboard/add-Items">
+              <FaUtensils /> <span>Add Items</span>
             </NavLink>
           </li>
           <li>
-            <NavLink to="/dashboard/cart">
-              <FaShoppingCart /> <span>My Cart</span>
+            <NavLink to="/dashboard/manage-items">
+              <FaList /> <span>Manage Items</span>
             </NavLink>
           </li>
           <li>
-            <NavLink to="/dashboard/add-review">
-              <FaComment /> <span>Add review</span>
+            <NavLink to="/dashboard/manage-bookings">
+              <FaBook /> <span>Manage Bookings</span>
             </NavLink>
           </li>
           <li>
-            <NavLink to="/dashboard/my-booking">
-              <FaCalendarCheck /> <span>My booking</span>
+            <NavLink to="/dashboard/users">
+              <FaUsers /> <span>All Users</span>
             </NavLink>
           </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <NavLink to="/dashboard/user-home">
+                  <FaHome /> <span>User Home</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/reservation">
+                  <FaCalendar /> <span>Reservation</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/cart">
+                  <FaShoppingCart /> <span>My Cart</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/add-review">
+                  <FaComment /> <span>Add review</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/my-booking">
+                  <FaCalendarCheck /> <span>My booking</span>
+                </NavLink>
+              </li>
+            </>
+          )}
 
           <div className="divider" />
 
@@ -49,8 +89,14 @@ const Dashboard = () => {
           </li>
           <li>
             <Link to="/order/salad">
-            <MdOutlineMenuBook />
-            <span>menu</span>
+              <MdOutlineMenuBook />
+              <span>menu</span>
+            </Link>
+          </li>
+          <li>
+            <Link to="/">
+              <FaEnvelope />
+              <span>Contact</span>
             </Link>
           </li>
         </ul>
