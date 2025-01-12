@@ -24,7 +24,7 @@ const Cart = () => {
       <div className="flex justify-evenly mb-8">
         <h2 className="text-4xl">Items: {cart.length}</h2>
         <h2 className="text-4xl">
-          Total Price: {cart.reduce((sum, item) => sum + item.price, 0)}
+          Total Price: {cart.reduce((sum, item) => sum + item.price, 0).toFixed(2)}
         </h2>
         <button className="btn btn-outline">Pay</button>
       </div>

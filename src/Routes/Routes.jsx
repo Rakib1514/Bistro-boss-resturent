@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import Main from "../Layouts/Main";
 import Home from "../Pages/Home/Home";
 import Menu from "../Pages/Menu/Menu";
@@ -55,6 +55,10 @@ const router = createBrowserRouter([
     path: "dashboard",
     element: <PrivateRoutes><Dashboard /></PrivateRoutes>,
     children: [
+      {
+        index: true,
+        element: <Navigate to={'admin-home'}/>
+      },
       {
         path: "cart",
         element: <Cart />,

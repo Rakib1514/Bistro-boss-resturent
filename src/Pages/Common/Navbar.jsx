@@ -34,10 +34,13 @@ const Navbar = () => {
         <NavLink to={"/order/salad"}>Order Food</NavLink>
       </li>
       <li>
-        <NavLink to={"/secret"}>secret</NavLink>
+        <NavLink to={"/dashboard"}>Dashboard</NavLink>
       </li>
       <li>
-        <NavLink to="/dashboard/cart" className="border border-white bg-transparent">
+        <NavLink
+          to="/dashboard/cart"
+          className="border border-white bg-transparent"
+        >
           <button className="flex gap-2 items-center">
             <span className="text-xl">
               <FaShoppingCart />

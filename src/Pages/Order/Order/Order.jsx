@@ -12,7 +12,11 @@ const Order = () => {
   const {category} = useParams();
   const initialIdx = categories.indexOf(category);
   const [tabIndex, setTabIndex] = useState(initialIdx);
-  const [menu] = useMenu();
+  const [menu, loading] = useMenu();
+
+  if(loading){
+    return <h2> Loading.......</h2>
+  }
 
   
 
