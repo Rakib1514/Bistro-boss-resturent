@@ -12,10 +12,10 @@ import {
 } from "react-icons/fa";
 import { MdOutlineMenuBook } from "react-icons/md";
 import { Link, NavLink, Outlet } from "react-router-dom";
+import useAdmin from "../Hooks/useAdmin";
 
 const Dashboard = () => {
-  // Todo: Get isAdmin value from the database
-  const isAdmin = true;
+  const { isAdmin } = useAdmin();
 
   return (
     <div className="flex gap-6">
@@ -24,30 +24,30 @@ const Dashboard = () => {
           {isAdmin ? (
             <>
               <li>
-            <NavLink to="/dashboard/admin-home">
-              <FaHome /> <span>Admin Home</span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/add-Items">
-              <FaUtensils /> <span>Add Items</span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/manage-items">
-              <FaList /> <span>Manage Items</span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/manage-bookings">
-              <FaBook /> <span>Manage Bookings</span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/users">
-              <FaUsers /> <span>All Users</span>
-            </NavLink>
-          </li>
+                <NavLink to="/dashboard/admin-home">
+                  <FaHome /> <span>Admin Home</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/add-Items">
+                  <FaUtensils /> <span>Add Items</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/manage-items">
+                  <FaList /> <span>Manage Items</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/manage-bookings">
+                  <FaBook /> <span>Manage Bookings</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/users">
+                  <FaUsers /> <span>All Users</span>
+                </NavLink>
+              </li>
             </>
           ) : (
             <>
